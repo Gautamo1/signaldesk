@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ---------------------------------------------------------------------------
+   SignalDesk design tokens — terminal-inspired, dark-first.
+   Semantic CSS variables switch per theme; Tailwind utilities map to them
+   via @theme inline so runtime theme switching works without rebuilds.
+--------------------------------------------------------------------------- */
+
+:root {
+  --sd-bg: #0a0d12;
+  --sd-surface: #0f141c;
+  --sd-raised: #151c27;
+  --sd-border: #1e2836;
+  --sd-hairline: #17202c;
+  --sd-ink: #e8edf5;
+  --sd-ink-2: #9aa7ba;
+  --sd-ink-3: #5d6c82;
+  --sd-accent: #f5b84c;
+  --sd-accent-soft: rgba(245, 184, 76, 0.12);
+  --sd-ok: #3dd68c;
+  --sd-warn: #ff9f43;
+  --sd-danger: #f0564a;
+  --sd-info: #5ca8ff;
+}
+
+[data-theme="light"] {
+  --sd-bg: #f2f4f7;
+  --sd-surface: #ffffff;
+  --sd-raised: #ffffff;
+  --sd-border: #dde3eb;
+  --sd-hairline: #e8ecf1;
+  --sd-ink: #16202e;
+  --sd-ink-2: #5a6779;
+  --sd-ink-3: #93a0b4;
+  --sd-accent: #a16e0f;
+  --sd-accent-soft: rgba(161, 110, 15, 0.12);
+  --sd-ok: #178a54;
+  --sd-warn: #c26a0a;
+  --sd-danger: #cc3b30;
+  --sd-info: #2e7cd6;
+}
+
+@theme inline {
+  --color-bg: var(--sd-bg);
+  --color-surface: var(--sd-surface);
+  --color-raised: var(--sd-raised);
+  --color-border: var(--sd-border);
+  --color-hairline: var(--sd-hairline);
+  --color-ink: var(--sd-ink);
+  --color-ink-2: var(--sd-ink-2);
+  --color-ink-3: var(--sd-ink-3);
+  --color-accent: var(--sd-accent);
+  --color-accent-soft: var(--sd-accent-soft);
+  --color-ok: var(--sd-ok);
+  --color-warn: var(--sd-warn);
+  --color-danger: var(--sd-danger);
+  --color-info: var(--sd-info);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  font-size: 13px;
+  min-height: 100%;
+}
+
+::selection {
+  background: var(--sd-accent);
+  color: #0a0d12;
+}
+
+/* Thin themed scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sd-border) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--sd-border);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--sd-accent);
+  outline-offset: 1px;
+}
+
+/* Tabular numbers for data cells */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle entry animation (respects reduced motion below) */
+@keyframes sd-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.sd-enter {
+  animation: sd-fade-up 140ms ease-out;
+}
+
+@keyframes sd-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.sd-live-dot {
+  animation: sd-pulse-dot 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print: only the brief document renders */
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-root {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .print-doc-frame {
+    border: none !important;
+    box-shadow: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+}
